@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Quote Generator</title>
+     <style>
+    
+		
+@font-face {
+	font-family: 'smoothpet';
+	src: url('smoothpet.ttf') format('truetype');
+}		
+@font-face {
+	font-family: 'vinyl';
+	src: url('VINYL.ttf') format('truetype');
+}		
+@font-face {
+	font-family: 'pimples';
+	src: url('pimples.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'elegantech';
+	src: url('EleganTech-.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'florsn17';
+	src: url('Florsn17.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'fakehopefilled';
+	src: url('FakeHopeFilled.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'hallfetica';
+	src: url('Hall Fetica.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'zector';
+	src: url('Zector.ttf') format('truetype');
+}
+
+        body {
+            color: white;
+            font-family: zector, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: ##333333;
+            transition: background-color 1s;
+}
+        #quote {
+            font-size: 3.6em;  /* Increased font size */
+            text-align: center;
+            transition: font-family 1s;
+            white-space: pre-line;  /* Added to respect new lines in text */
+}
+        #dice-button {
+            position: fixed;
+            top: 20px;
+            left: 93%;
+           
+            width: 100px;
+            height: 100px;
+            background-color: #ffffff;
+            border: 6px solid black;
+            border-radius: 70px;
+            box-shadow: none;
+            cursor: pointer;
+            font-size: 5em;
+            transition: background-color 1s;
+			padding: 6 px;
+			display: flex; /* Add this */
+			justify-content: center; /* Add this */
+			align-items: center; /* Add this */
+}
+		#dice-button img {
+		width: calc(90% - 6px); /* Subtract double the padding from the width */
+		height: calc(90% - 6px); /* Subtract double the padding from the height */
+}
+        #color-code {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.3em;
+}
+        #music-info {
+            position: fixed;
+            bottom: 20px;
+            centre: ;
+            font-size: 1.3em;
+}
+		#Inspire {
+			position: fixed;
+            top: 20px;
+            left: 54%;
+			background: none;
+			border: none;
+			font-size: 5em;
+}
+	#Theory {
+			position: fixed;
+            bottom: 20px;
+            left: 1.5%;
+  	    background: none;
+	    border: none;
+  	    font-size: 1.8em;
+}
+	#Delay {
+			position: fixed;
+            bottom: 150px;
+            left: 2%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+	#Pomodoro15 {
+			position: fixed;
+            top: 20px;
+            left: 2%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+	#Pomodoro30 {
+			position: fixed;
+            top: 150px;
+            left: 2%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}	
+	#Pomodoro45 {
+			position: fixed;
+            top: 280px;
+            left: 2%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+	#Pomodoro60 {
+			position: fixed;
+            top: 410px;
+            left: 2%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+
+	#obStrat {
+			position: fixed;
+            top: 20px;
+            left: 41%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+	
+	#Paint {
+			position: fixed;
+            bottom: 20px;
+            left: 93%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+	#Trello {
+			position: fixed;
+            bottom: 320px;
+            left: 93%;
+			background: none;
+			border: none;
+			font-size: 1.8em;
+}
+    </style>
+</head>
+
+<body>
+    <div id="quote">Loading...</div>
+    <button id="dice-button"><img src=random.png alt="Shuffle"></button>
+    
+    <div id="music-info"></div>
+    <button id="Inspire" onclick="openUrl()"><img src=bulb.png alt="Inspiration Wheel"></button>
+	<button id="Theory" onclick="openTheory()"> <img src=clef.png alt="Scale Finder"></button>
+	<button id="Delay" onclick="openTime()"><img src=clock.png alt="Delay Times"></button>
+	<button id="Pomodoro15" onclick="openPomodoro15()"><img src=15.png alt="Pomodoro15"></button>
+	<button id="Pomodoro30" onclick="openPomodoro30()"><img src=30.png alt="Pomodoro30"></button>
+	<button id="Pomodoro45" onclick="openPomodoro45()"><img src=45.png alt="Pomodoro45"></button>
+	<button id="Pomodoro60" onclick="openPomodoro60()"><img src=60.png alt="Pomodoro60"></button>
+	<button id="obStrat" onclick="displayOblique()"><img src=cards.png alt="cards"></button>
+	<button id="Paint" onclick="openColorPalette()"><img src=paint.png alt="paint"></button>
+   <button id="Trello" onclick="createCard()"><img src=trello.png alt="trello"></button>
+   
+   
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	
+  <script>
+
+	let BPM;
+	let FONT;
+	let COLOR;
+	let note;  // Define note in the outer scope
+	let scale;  // Define scale in the outer scope
+	
+		function getCurrentDate() {
+		var date = new Date();
+		var year = date.getFullYear().toString().substr(-2); // get last two digits of year
+		var month = ('0' + (date.getMonth() + 1)).slice(-2); // get month and pad with 0 if necessary
+		var day = ('0' + date.getDate()).slice(-2); // get day and pad with 0 if necessary
+		return year + month + day;
+}
+
+       function hslToHex(h, s, l) {
+		l /= 100;
+		const a = s * Math.min(l, 1 - l) / 100;
+		const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+}
+	
+		function getRandomColor() {
+			let hue = Math.floor(Math.random() * 361);
+			let saturation = Math.floor(Math.random() * 56); // up to 55%
+			let lightness = Math.floor(Math.random() * 56); // up to 55%
+			return hslToHex(hue, saturation, lightness);
+        }
+        function getRandomFont() {
+            let fonts = ['"smoothpet", sans-serif','"elegantech", sans-serif','"hallfetica", sans-serif','"vinyl", sans-serif','"zector", sans-serif'];
+            let font = fonts[Math.floor(Math.random() * fonts.length)];
+            return font;
+        }
+		
+		function replaceWithFemalePronouns(quote) {
+    
+	return quote.replace(/\bman\b/gi, 'woman')
+				.replace(/\bmen\b/gi, 'women')
+                .replace(/\bhis\b/gi, 'her')
+                .replace(/\bhim\b/gi, 'her')
+                .replace(/\bhe\b/gi, 'she')
+                .replace(/\bhimself\b/gi, 'herself')
+				.replace(/\bMan\b/gi, 'Woman')
+				.replace(/\bMen\b/gi, 'Women')
+                .replace(/\bHis\b/gi, 'Her')
+                .replace(/\bHim\b/gi, 'Her')
+                .replace(/\bHe\b/gi, 'She')
+                .replace(/\bHimself\b/gi, 'Herself');
+}
+	async function getQuote() {
+		const response = await fetch('https://api.quotable.io/random');
+		const data = await response.json();
+		const quote = data.content;
+		return replaceWithFemalePronouns(quote);
+}
+
+       function splitQuote(quote) {
+    let splitQuote = '';
+    let lineLength = 0;
+    for (let i = 0; i < quote.length; i++) {
+        splitQuote += quote[i];
+        lineLength++;
+        if (quote[i] === ' ' && lineLength >= 40) {
+            splitQuote += '\n';
+            lineLength = 0;
+        } else if (quote[i] === '.' && quote[i+1] !== '.') {
+            splitQuote += '\n';
+            lineLength = 0;
+        } else if (quote[i] === ' ,' && lineLength >= 15 && quote.length - i > 25 && quote.length - i < 15	) {
+            splitQuote += '\n';
+            lineLength = 0;
+        } else if (quote[i] === ';' || quote[i] === ':') {
+            splitQuote += '\n';
+            lineLength = 0;
+        }
+    }
+    return splitQuote;
+}
+
+
+
+
+        // Arrays for Note, Scale, and BPM
+        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const scales = ['Major', 'Major Bebop', 'Major Pentatonic','Persian', 'minor', 'harmonic minor', 'Hungarian Minor (Gipsy)', 'melodic minor', 'pentatonic minor', 'Neopolitan Minor', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Locrian', 'Neopolitan', 'bebop dominant', 'Blues', 'Diminished', 'Egyptian', 'Iwato', 'Japanese (in sen)', 'Phrygian Dominant', 'Prometheus','whole tone','Altered', 'Enigmatic', 'Hirajoshi' ];
+        const minBPM = 34;
+        const maxBPM = 188;
+		 const scaleMap = {
+			'Major': { url: 'Major', text: 'Major' },
+			'Major Bebop': { url: 'bebop major', text: 'Major Bebop'},
+			'Major Pentatonic': { url: 'Major Pentatonic', text: 'Major Pentatonic'},
+			'Persian': { url: 'Persian', text: 'Persian'},
+			'minor': { url: 'minor', text: 'minor Natural (Aeolian)' },
+			
+			'harmonic minor': { url: 'harmonic minor', text: 'minor Harmonic'},
+			'Hungarian Minor (Gipsy)': { url: 'Hungarian Minor (Gipsy)', text: 'minor Hungarian'},
+			'melodic minor': {url: 'melodic minor', text: 'minor Melodic' },
+			'pentatonic minor': { url: 'minor pentatonic', text: 'minor Pentatonic'},
+			'Neopolitan Minor': { url: 'Neopolitan Minor', text: 'minor Neopolitan'},
+			'Arabic': { url: 'Byzantine', text: 'Arabic / Byzantine' },
+			'bebop dominant': { url: 'bebop dominant', text: 'Bebop Dominant'},
+			'Blues': { url: 'Blues', text: 'Blues'},
+			'Diminished': { url: 'Diminished', text: 'Diminished'},
+			'Dorian': {  url: 'dorian', text: 'Dorian'},
+			'Egyptian': { url: 'Egyptian', text: 'Egyptian'},
+			'Enigmatic': { url: 'Enigmatic', text: 'Enigmatic'},
+			'Iwato': { url: 'Iwato', text: 'Iwato'},
+			'Japanese (in sen)': { url: 'Japanese (in sen)', text: 'Japanese Insen'},
+			'Phrygian': { url: 'phrygian', text: 'Phrygian'},
+			'Lydian': { url: 'lydian', text: 'Lydian'},
+			'Mixolydian': { url: 'mixolydian', text: 'Mixolydian'},
+			'Locrian': { url: 'locrian', text: 'Locrian'},
+			'Neopolitan': { url: 'Neopolitan', text: 'Neopolitan'},
+			'Phrygian Dominant': { url: 'Major Phrygian', text: 'Phrygian Dominant'},
+			'Prometheus': { url: 'Prometheus', text: 'Prometheus'},
+			'whole tone': { url: 'whole tone', text: 'Whole Tone'},
+			'Altered': { url: 'Altered', text: 'Super Locrian'},
+			'Hirajoshi': { url: 'Hirajoshi', text: 'Hirajoshi'},
+			
+        // Add other scales here
+    };
+        // Function to get a random element from an array
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        // Function to get a random BPM within the range
+        function getRandomBPM(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+       function generateRandomText() {
+    updateNoteAndScale();
+    BPM = getRandomBPM(minBPM, maxBPM);
+    return `${note} ${scale} - BPM:${BPM}`;
+
+}
+
+      	function updateNoteAndScale() {
+		note = getRandomElement(notes);  // Update note
+		scale = getRandomElement(scales);  // Update scale
+	}
+	updateNoteAndScale();
+
+  
+
+	function openUrl() {
+  	window.open('https://wheelofnames.com/3a2-u9k');
+	}
+	
+	function openTheory() {
+    const urlNote = encodeURIComponent(note);
+    const urlScale = encodeURIComponent(scale);
+    const url = `https://www.scales-chords.com/scaleinfo.php?skey=${urlNote}&sname=${urlScale}`;
+    window.open(url);
+}
+	
+	function openTime() {
+	window.open('https://anotherproducer.com/online-tools-for-musicians/delay-reverb-time-calculator/');
+	}
+	
+	function openColorPalette() {
+    // Remove the '#' from the COLOR value to get the hex code
+    const hexColor = COLOR.slice(1);
+    const url = `https://coolors.co/palettes/popular/${hexColor}`;
+    window.open(url);
+}
+	
+	function openPomodoro15() {
+    // Create a new window
+    let pomodoroWindow = window.open("", "Pomodoro", "width=400,height=300");
+	pomodoroWindow.document.title = "Pomodoro";
+    // Define the @font-face rule
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+    @font-face {
+        font-family: 'pimples';
+        src: url('pimples.ttf') format('truetype');
+    }
+    #pomdown {
+        position: fixed;
+        font-size: 10em;
+    }`;
+    pomodoroWindow.document.head.appendChild(style);
+
+    // Create a div with id 'pomdown'
+    let div = pomodoroWindow.document.createElement('div');
+    div.id = 'pomdown';
+    pomodoroWindow.document.body.appendChild(div);
+
+    // Set the style
+    pomodoroWindow.document.body.style.backgroundColor = "#111111"; // Almost black
+    pomodoroWindow.document.body.style.color = "white";
+    pomodoroWindow.document.body.style.fontFamily = 'pimples'; // Use the custom font
+    pomodoroWindow.document.body.style.display = "flex";
+    pomodoroWindow.document.body.style.justifyContent = "center";
+    pomodoroWindow.document.body.style.alignItems = "center";
+    pomodoroWindow.document.body.style.height = "90vh";
+    pomodoroWindow.document.body.style.border = "14px solid white";
+    pomodoroWindow.document.body.style.margin = "0"; // Reset margin
+    pomodoroWindow.document.body.style.padding = "0"; // Reset padding
+
+    // Create a countdown timer
+    let countdown = 15 * 60; // 15 minutes in seconds
+
+    // Use setTimeout to ensure the timer function is executed after the new window is fully loaded
+    setTimeout(function startTimer() {
+        if (countdown < 0) {
+            div.innerHTML = "BREAK";
+        } else {
+            let minutes = Math.floor(countdown / 60);
+            let seconds = countdown % 60;
+            div.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            countdown--;
+            setTimeout(startTimer, 1000); // Call startTimer again after 1 second
+        }
+    }, 1000);
+}
+	
+	function openPomodoro30() {
+    // Create a new window
+    let pomodoroWindow = window.open("", "Pomodoro", "width=400,height=300");
+	pomodoroWindow.document.title = "Pomodoro";
+    // Define the @font-face rule
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+    @font-face {
+        font-family: 'pimples';
+        src: url('pimples.ttf') format('truetype');
+    }
+    #pomdown {
+        position: fixed;
+        font-size: 10em;
+    }`;
+    pomodoroWindow.document.head.appendChild(style);
+
+    // Create a div with id 'pomdown'
+    let div = pomodoroWindow.document.createElement('div');
+    div.id = 'pomdown';
+    pomodoroWindow.document.body.appendChild(div);
+
+    // Set the style
+    pomodoroWindow.document.body.style.backgroundColor = "#111111"; // Almost black
+    pomodoroWindow.document.body.style.color = "white";
+    pomodoroWindow.document.body.style.fontFamily = 'pimples'; // Use the custom font
+    pomodoroWindow.document.body.style.display = "flex";
+    pomodoroWindow.document.body.style.justifyContent = "center";
+    pomodoroWindow.document.body.style.alignItems = "center";
+    pomodoroWindow.document.body.style.height = "90vh";
+    pomodoroWindow.document.body.style.border = "14px solid white";
+    pomodoroWindow.document.body.style.margin = "0"; // Reset margin
+    pomodoroWindow.document.body.style.padding = "0"; // Reset padding
+
+    // Create a countdown timer
+    let countdown = 30 * 60; // 30 minutes in seconds
+
+    // Use setTimeout to ensure the timer function is executed after the new window is fully loaded
+    setTimeout(function startTimer() {
+        if (countdown < 0) {
+            div.innerHTML = "BREAK";
+        } else {
+            let minutes = Math.floor(countdown / 60);
+            let seconds = countdown % 60;
+            div.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            countdown--;
+            setTimeout(startTimer, 1000); // Call startTimer again after 1 second
+        }
+    }, 1000);
+}
+	function openPomodoro45() {
+    // Create a new window
+    let pomodoroWindow = window.open("", "Pomodoro", "width=400,height=300");
+	pomodoroWindow.document.title = "Pomodoro";
+    // Define the @font-face rule
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+    @font-face {
+        font-family: 'pimples';
+        src: url('pimples.ttf') format('truetype');
+    }
+    #pomdown {
+        position: fixed;
+        font-size: 10em;
+    }`;
+    pomodoroWindow.document.head.appendChild(style);
+
+    // Create a div with id 'pomdown'
+    let div = pomodoroWindow.document.createElement('div');
+    div.id = 'pomdown';
+    pomodoroWindow.document.body.appendChild(div);
+
+    // Set the style
+    pomodoroWindow.document.body.style.backgroundColor = "#111111"; // Almost black
+    pomodoroWindow.document.body.style.color = "white";
+    pomodoroWindow.document.body.style.fontFamily = 'pimples'; // Use the custom font
+    pomodoroWindow.document.body.style.display = "flex";
+    pomodoroWindow.document.body.style.justifyContent = "center";
+    pomodoroWindow.document.body.style.alignItems = "center";
+    pomodoroWindow.document.body.style.height = "90vh";
+    pomodoroWindow.document.body.style.border = "14px solid white";
+    pomodoroWindow.document.body.style.margin = "0"; // Reset margin
+    pomodoroWindow.document.body.style.padding = "0"; // Reset padding
+
+    // Create a countdown timer
+    let countdown = 45 * 60; // 45 minutes in seconds
+
+    // Use setTimeout to ensure the timer function is executed after the new window is fully loaded
+    setTimeout(function startTimer() {
+        if (countdown < 0) {
+            div.innerHTML = "BREAK";
+        } else {
+            let minutes = Math.floor(countdown / 60);
+            let seconds = countdown % 60;
+            div.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            countdown--;
+            setTimeout(startTimer, 1000); // Call startTimer again after 1 second
+        }
+    }, 1000);
+}
+	function openPomodoro60() {
+    // Create a new window
+    let pomodoroWindow = window.open("", "Pomodoro", "width=400,height=300");
+	pomodoroWindow.document.title = "Pomodoro";
+    // Define the @font-face rule
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+    @font-face {
+        font-family: 'pimples';
+        src: url('pimples.ttf') format('truetype');
+    }
+    #pomdown {
+        position: fixed;
+        font-size: 10em;
+    }`;
+    pomodoroWindow.document.head.appendChild(style);
+
+    // Create a div with id 'pomdown'
+    let div = pomodoroWindow.document.createElement('div');
+    div.id = 'pomdown';
+    pomodoroWindow.document.body.appendChild(div);
+
+    // Set the style
+    pomodoroWindow.document.body.style.backgroundColor = "#111111"; // Almost black
+    pomodoroWindow.document.body.style.color = "white";
+    pomodoroWindow.document.body.style.fontFamily = 'pimples'; // Use the custom font
+    pomodoroWindow.document.body.style.display = "flex";
+    pomodoroWindow.document.body.style.justifyContent = "center";
+    pomodoroWindow.document.body.style.alignItems = "center";
+    pomodoroWindow.document.body.style.height = "90vh";
+    pomodoroWindow.document.body.style.border = "14px solid white";
+    pomodoroWindow.document.body.style.margin = "0"; // Reset margin
+    pomodoroWindow.document.body.style.padding = "0"; // Reset padding
+
+    // Create a countdown timer
+    let countdown = 60 * 60; // 60 minutes in seconds
+
+    // Use setTimeout to ensure the timer function is executed after the new window is fully loaded
+    setTimeout(function startTimer() {
+        if (countdown < 0) {
+            div.innerHTML = "BREAK";
+        } else {
+            let minutes = Math.floor(countdown / 60);
+            let seconds = countdown % 60;
+            div.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            countdown--;
+            setTimeout(startTimer, 1000); // Call startTimer again after 1 second
+        }
+    }, 1000);
+}
+
+	// Your array of possible values for 'oblique'
+var obliqueArray = ['Abandon normal instruments', 'Accept advice', 'Accretion', 'A line has two sides', 'Allow an easement (an easement is the abandonment of a stricture)', 'Are there sections? Consider transitions', 'Ask people to work against their better judgment', 'Ask your body', 'Assemble some of the instruments in a group and treat the group', 'Balance the consistency principle with the inconsistency principle', 'Be dirty', 'Breathe more deeply', 'Bridges -build -burn', 'Cascades', 'Change instrument roles', 'Change nothing and continue with immaculate consistency', 'Children\'s voices -speaking -singing', 'Cluster analysis', 'Consider different fading systems', 'Consult other sources -promising -unpromising', 'Convert a melodic element into a rhythmic element', 'Courage!', 'Cut a vital connection', 'Decorate, decorate', 'Define an area as `safe\' and use it as an anchor', 'Destroy -nothing -the most important thing', 'Discard an axiom', 'Disconnect from desire', 'Discover the recipes you are using and abandon them', 'Distorting time', 'Do nothing for as long as possible', 'Don\'t be afraid of things because they\'re easy to do', 'Don\'t be frightened of cliches', 'Don\'t be frightened to display your talents', 'Don\'t break the silence', 'Don\'t stress one thing more than another', 'Do something boring', 'Do the washing up', 'Do the words need changing?', 'Do we need holes?', 'Emphasize differences', 'Emphasize repetitions', 'Emphasize the flaws', 'Faced with a choice, do both (given by Dieter Roth)', 'Feedback recordings into an acoustic situation', 'Fill every beat with something', 'Get your neck massaged', 'Ghost echoes', 'Give the game away', 'Give way to your worst impulse', 'Go slowly all the way round the outside', 'Honor thy error as a hidden intention', 'How would you have done it?', 'Humanize something free of error', 'Imagine the music as a moving chain or caterpillar', 'Imagine the music as a set of disconnected events', 'Infinitesimal gradations', 'Intentions -credibility of -nobility of -humility of', 'Into the impossible', 'Is it finished?', 'Is there something missing?', 'Is the tuning appropriate?', 'Just carry on', 'Left channel, right channel, center channel', 'Listen in total darkness, or in a very large room, very quietly', 'Listen to the quiet voice', 'Look at a very small object; look at its center', 'Look at the order in which you do things', 'Look closely at the most embarrassing details and amplify them', 'Lowest common denominator check -single beat -single note -single', 'riff', 'Make a blank valuable by putting it in an exquisite frame', 'Make an exhaustive list of everything you might do and do the last', 'thing on the list', 'Make a sudden, destructive, unpredictable action; incorporate', 'Mechanicalize something idiosyncratic', 'Mute and continue', 'Only one element of each kind', '(Organic) machinery', 'Overtly resist change', 'Put in earplugs', 'Remember those quiet evenings', 'Remove ambiguities and convert to specifics', 'Remove specifics and convert to ambiguities', 'Repetition is a form of change', 'Reverse', 'Short circuit', 'improve his virility shovels them straight into his lap)', 'Shut the door and listen from outside', 'Simple subtraction', 'Spectrum analysis', 'Take a break', 'Take away the elements in order of apparent non-importance', 'Tape your mouth (given by Ritva Saarikko)', 'The inconsistency principle', 'The tape is now the music', 'Think of the radio', 'Tidy up', 'Trust in the you of now', 'Turn it upside down', 'Twist the spine', 'Use an old idea', 'Use an unacceptable color', 'Use fewer notes', 'Use filters', 'Use "unqualified" people', 'Water', 'What are you really thinking about just now? Incorporate', 'What is the reality of the situation?', 'What mistakes did you make last time?', 'What would your closest friend do?', 'What wouldn\'t you do?', 'Work at a different speed', 'You are an engineer', 'You can only make one dot at a time', 'You don\'t have to be ashamed of using your own ideas', '[blank white card]'];
+
+// Trello key and token
+var key = "35ef93a62ce3b75a57cdfc0db56590bd";
+var token = "ATTA93dcbd176db2aaa6505e3cd166a8358f4eb481f947db066c119728beb255f5eb661BDD13";
+
+// Trello Board and List id
+var boardId = "65b0e14556d9a627dd724c9e";
+var listId = "65b0e18b6ed8983f18d243fc";
+
+
+function getOblique() {
+    // Select a random value from the array
+    var oblique = obliqueArray[Math.floor(Math.random() * obliqueArray.length)];
+    return oblique;
+}
+
+function displayOblique() {
+    var oblique = getOblique();
+    alert(oblique);
+}
+
+// Function to create a new card
+function createCard(name, desc) {
+    var url = `https://api.trello.com/1/cards?key=${key}&token=${token}`;
+
+    var data = {
+        name: name,
+        desc: desc,
+        idList: listId
+    };
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        success: function(response) {
+            console.log('Card created successfully.');
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+// Call the function with values from your existing functions
+console.log(note, scale, BPM); 
+
+
+var cardName = `randomText`;
+var cardDesc = updateQuote();
+
+    
+  // Update the random text function to include the new function
+       async function updateQuote() {
+            let quote = await getQuote();
+            quote = splitQuote(quote);  /* Split the quote */
+            COLOR = getRandomColor();
+            FONT = getRandomFont();
+            const randomText = generateRandomText();  // Generate the random text
+
+            document.getElementById('quote').textContent = quote;  // Remove the random text from the quote
+            document.getElementById('music-info').textContent = randomText;  // Add the random text to the new div
+          document.getElementById('quote').style.fontFamily = FONT;
+		document.body.style.backgroundColor = COLOR;
+		
+		document.getElementById('color-code').textContent = COLOR;
+        }
+
+      document.getElementById('dice-button').addEventListener('click', updateQuote);
+
+        updateQuote();
+		// Update on page load
+
+
+    </script>
+	
+
+</body>
+</html>
